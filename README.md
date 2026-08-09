@@ -48,12 +48,18 @@ The goal is to demonstrate real cloud engineering skills using infrastructure as
   
 ##  Folder Structure
 TFP1/     
-├── 01-Providers.tf                        
-├── 02-Variables.tf                     
-├── 03-VPC.tf                      
+├── 01-Providers.tf
+
+├── 02-Variables.tf 
+
+├── 03-VPC.tf      
+
 ├── 04-Security-Groups.tf
+
 ├── 05-ALB.tf
+
 ├── 06-EC2.tf
+
 ├── 07-Outputs.tf                   
 
    # Deployment
