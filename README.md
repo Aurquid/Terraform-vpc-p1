@@ -43,20 +43,18 @@ The goal is to demonstrate real cloud engineering skills using infrastructure as
 * Application Load Balancer(ALB)
 * Auto Scaling Group(ASG)
 * IAM Role(SSM Access)
+* CloudWatch(CPU alarm for scaling)
   
   
 ##  Folder Structure
-TFP1/
-├── .terraform/                    
-├── .terraform.lock.hcl        
-├── main.tf                         
-├── modules.tf                     
-├── outputs.tf                      
-├── providers.tf                   
-├── terraform.tfstate          
-├── terraform.tfstate.1785875736.backup  
-├── terraform.tfstate.backup        
-├── variables.tf                    
+TFP1/     
+├── 01-Providers.tf                        
+├── 02-Variables.tf                     
+├── 03-VPC.tf                      
+├── 04-Security-Groups.tf
+├── 05-ALB.tf
+├── 06-EC2.tf
+├── 07-Outputs.tf                   
 
    # Deployment
 * terraform init
@@ -87,9 +85,9 @@ TFP1/
 This section explains the architectural decisions and their tradeoffs.
 
 * **EC2 vs Lambda:** EC2 chosen for persistent compute and predictable cost; Lambda offers serverless simplicity but higher per‑invocation pricing.  
- * **ALB vs NLB:** ALB supports HTTP routing and health checks; NLB provides lower latency but lacks path‑based routing.  
-*  **NAT Gateway vs VPC Endpoints:** NAT Gateway enables outbound internet access for private subnets; endpoints are cheaper for internal AWS traffic only.  
-  * **t2.micro vs t2.nano:** t2.micro selected for better baseline performance and demo stability; t2.nano is cheaper but limited for multi‑instance scaling.
+* **ALB vs NLB:** ALB supports HTTP routing and health checks; NLB provides lower latency but lacks path‑based routing.  
+* **NAT Gateway vs VPC Endpoints:** NAT Gateway enables outbound internet access for private subnets; endpoints are cheaper for internal AWS traffic only.  
+ * **t2.micro vs t2.nano:** t2.micro selected for better baseline performance and demo stability; t2.nano is cheaper but limited for multi‑instance scaling.
 
 
 
