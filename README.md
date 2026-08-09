@@ -1,7 +1,9 @@
 # Terraform-vpc-ec2-alb-asg
-This project mimics a production-style AWS environment utilizing Terraform.
-It includes a VPC, public/private subnets,EC2 launce template, Application Load Balancer, and Auto Scaling Group.
-The goal is to demonstrate real cloud engineering skills using infrastructure as code.
+# Overview
+This project mimics a production-style AWS environment utilizing Terraform.  
+It includes a VPC, public/private subnets, EC2 launch template, Application Load Balancer, Auto Scaling Group, and CloudWatch alarm for CPU-based scaling.  
+The goal is to demonstrate real cloud engineering skills using Infrastructure as Code (IaC), focusing on scalability, monitoring, and cost efficiency.
+
 
 # 📘 Table of Contents
 * [Overview](#overview)
@@ -100,12 +102,16 @@ This section explains the architectural decisions and their tradeoffs.
 # Cost Breakdown 
 | Component | Cost | Notes |
 | --- | --- | --- |
-| EC2 t4g.nano | ~$3/mo | cheapest option |
-| ALB | ~$16/mo | delete when not testing |
+| EC2 t2.micro | $8.35/mo | charged while running |
+| ALB | $16/mo | delete when not testing |
 | VPC | $0 | free |
-| Endpoints | $0 | free |
+| ASG | $0 | free |
+| NAT Gateway| $32-35/mo| charged hourly+ data processed |
+|CloudWatch Alarm| $0.10-$0.30| Minimal; charged per metric/alarm |
+|Data Transfer| variable| Depends on traffic volume |
+
 # Business Impact
-* Cost-efficent scaling
+* Cost-efficient scaling
   
 * Reduced downtime risk
 
@@ -115,13 +121,17 @@ This section explains the architectural decisions and their tradeoffs.
 
 * Strong security posture
 
+* Proactive monitoring through CloudWatch alarms enhances system resilience and scaling responsiveness.
+
  # Lessons Learned
 
-  * Importance of modular Terraform
+  * Importance of modular Terraform design
  
   * Value of IAM  least privilege
  
   * How ALB  health checks behave
+
+  * How CloudWatch alarms integrate with Auto Scaling
  
   * How to optimize cloud cost
  
