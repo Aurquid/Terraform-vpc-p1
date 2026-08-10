@@ -88,7 +88,18 @@ TFP1/
   4. Confirm ALB target health
   ### Prevention:
   * Add automated validation
-  * Add Cloudwatch alarms
+  * Add CloudWatch alarms
+  
+### Scenario: Auto Scaling fails to trigger  
+### Root Cause: Misconfigured CloudWatch alarm or missing ASG policy ARN  
+### Recovery Steps:  
+1.Verify CloudWatch alarm state and threshold  
+2. Check alarm actions for correct ASG policy ARN  
+3. Re‑apply Terraform configuration  
+4. Confirm scaling event in CloudWatch metrics  
+### Prevention:
+* Validate alarm configuration after deployment
+
  ##  Tradeoff Analysis
 This section explains the architectural decisions and their tradeoffs.
 
