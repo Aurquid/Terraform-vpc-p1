@@ -82,18 +82,20 @@ TFP1/
   ### Scenario : ALB health checks fail
   ### Root Cause: Incorrect security group or user data
   ###  Recovery Steps:
-  1. Validate SG inbound rules
-  2. Check EC2 user data logs
-  3. Restart instance or redeploy
-  4. Confirm ALB target health
+  
+   1. Validate SG inbound rules
+   2. Check EC2 user data logs
+   3. Restart instance or redeploy
+   4. Confirm ALB target health
   ### Prevention:
   * Add automated validation
   * Add CloudWatch alarms
+ 
   
 ### Scenario: Auto Scaling fails to trigger  
 ### Root Cause: Misconfigured CloudWatch alarm or missing ASG policy ARN  
 ### Recovery Steps:  
-1.Verify CloudWatch alarm state and threshold  
+1. Verify CloudWatch alarm state and threshold  
 2. Check alarm actions for correct ASG policy ARN  
 3. Re‑apply Terraform configuration  
 4. Confirm scaling event in CloudWatch metrics  
