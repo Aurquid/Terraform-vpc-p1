@@ -1,4 +1,4 @@
-# Terraform-vpc-ec2-alb-asg
+# Terraform-VPC-P1  
 # Overview
 This project mimics a production-style AWS environment utilizing Terraform.  
 It includes a VPC, public/private subnets, EC2 launch template, Application Load Balancer, Auto Scaling Group, and CloudWatch alarm for CPU-based scaling.  
@@ -10,7 +10,6 @@ The goal is to demonstrate real cloud engineering skills using Infrastructure as
 * [Architecture Diagram](#architecture-diagram)
 * [Architecture Summary](#architecture-summary)
 * [Services Used](#services-used)
-* [Folder Structure](#folder-structure)
 * [Deployment](#deployment)
 * [IAM Least Privilege](#iam-least-privilege)
 * [Tradeoff Analysis](#tradeoff-analysis)
@@ -33,7 +32,6 @@ The goal is to demonstrate real cloud engineering skills using Infrastructure as
 * IAM Role for SSM access
 * EC2 Launch Template defining instance configuration
 
-
 # Services Used
 * VPC
 * Subnets( Public and Private)
@@ -47,22 +45,7 @@ The goal is to demonstrate real cloud engineering skills using Infrastructure as
 * IAM Role(SSM Access)
 * CloudWatch(CPU alarm for scaling)
   
-  
-##  Folder Structure
-TFP1/     
-├── 01-Providers.tf
-
-├── 02-Variables.tf 
-
-├── 03-VPC.tf      
-
-├── 04-Security-Groups.tf
-
-├── 05-ALB.tf
-
-├── 06-EC2.tf
-
-├── 07-Outputs.tf                   
+                 
 
    # Deployment
 * terraform init
@@ -87,7 +70,7 @@ TFP1/
    2. Check EC2 user data logs
    3. Restart instance or redeploy
    4. Confirm ALB target health
-  ### Prevention:
+   ### Prevention:
   * Add automated validation
   * Add CloudWatch alarms
  
@@ -103,9 +86,7 @@ TFP1/
 * Validate alarm configuration after deployment
 
  ##  Tradeoff Analysis
-This section explains the architectural decisions and their tradeoffs.
-
-* **EC2 vs Lambda:** EC2 chosen for persistent compute and predictable cost; Lambda offers serverless simplicity but higher per‑invocation pricing.  
+* **EC2 vs Lambda:** EC2 chosen for persistent compute and predictable cost; Lambda offers serverless simplicity but higher per‑request pricing.  
 * **ALB vs NLB:** ALB supports HTTP routing and health checks; NLB provides lower latency but lacks path‑based routing.  
 * **NAT Gateway vs VPC Endpoints:** NAT Gateway enables outbound internet access for private subnets; endpoints are cheaper for internal AWS traffic only.  
  * **t2.micro vs t2.nano:** t2.micro selected for better baseline performance and demo stability; t2.nano is cheaper but limited for multi‑instance scaling.
@@ -134,19 +115,19 @@ This section explains the architectural decisions and their tradeoffs.
 
 * Strong security posture
 
-* Proactive monitoring through CloudWatch alarms enhances system resilience and scaling responsiveness.
+* Monitoring through CloudWatch alarms improves system resilience and scaling.
 
  # Lessons Learned
 
-  * Importance of modular Terraform design
- 
-  * Value of IAM  least privilege
+   * Value of IAM  least privilege
  
   * How ALB  health checks behave
 
   * How CloudWatch alarms integrate with Auto Scaling
  
   * How to optimize cloud cost
+
+  * Including health checks for instances for reliability
  
   # Screenshots
   ### VPC and Subnets
