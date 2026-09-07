@@ -14,7 +14,7 @@ The goal is to demonstrate real cloud engineering skills using Infrastructure as
 * [IAM Least Privilege](#iam-least-privilege)
 * [Tradeoff Analysis](#tradeoff-analysis)
 * [Cost Breakdown](#cost-breakdown)
-* [Failure Scenario & Recovery Playbook](#failure-scenario--recovery-playbook)
+* [Failure Scenario & Recovery Playbook](#failure-scenario-and-recovery-playbook)
 * [Lessons Learned](#lessons-learned)
 * [Screenshots](#screenshots)
 
