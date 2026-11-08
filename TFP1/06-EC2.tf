@@ -60,7 +60,7 @@ resource "aws_autoscaling_group" "app_asg" {
   name                      = "app-asg"
   vpc_zone_identifier       = [aws_subnet.private["a"].id, aws_subnet.private["b"].id]
   desired_capacity          = 2
-  min_size                  = 1
+  min_size                  = 2
   max_size                  = 3
   health_check_type         = "ELB"
   health_check_grace_period = 300
@@ -79,15 +79,28 @@ resource "aws_autoscaling_group" "app_asg" {
   }
 }
 
+# Add one instance (up to max_size = 3) when average CPU across the ASG is high
 resource "aws_autoscaling_policy" "scale_out" {
   name                   = "scale-out"
   autoscaling_group_name = aws_autoscaling_group.app_asg.name
   adjustment_type        = "ChangeInCapacity"
   scaling_adjustment     = 1
+  cooldown               = 300
 }
 
+# Remove one instance (down to min_size = 2) when CPU stays low, to save cost
+resource "aws_autoscaling_policy" "scale_in" {
+  name                   = "scale-in"
+  autoscaling_group_name = aws_autoscaling_group.app_asg.name
+  adjustment_type        = "ChangeInCapacity"
+  scaling_adjustment     = -1
+  cooldown               = 300
+}
+
+# Scoped to this ASG's instances through the AutoScalingGroupName dimension
 resource "aws_cloudwatch_metric_alarm" "cpu_high" {
   alarm_name          = "cpu-high"
+  alarm_description   = "Scale out when ASG average CPU is above 70% for 2 minutes"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 2
   metric_name         = "CPUUtilization"
@@ -96,4 +109,25 @@ resource "aws_cloudwatch_metric_alarm" "cpu_high" {
   statistic           = "Average"
   threshold           = 70
   alarm_actions       = [aws_autoscaling_policy.scale_out.arn]
+
+  dimensions = {
+    AutoScalingGroupName = aws_autoscaling_group.app_asg.name
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "cpu_low" {
+  alarm_name          = "cpu-low"
+  alarm_description   = "Scale in when ASG average CPU is below 30% for 5 minutes"
+  comparison_operator = "LessThanThreshold"
+  evaluation_periods  = 5
+  metric_name         = "CPUUtilization"
+  namespace           = "AWS/EC2"
+  period              = 60
+  statistic           = "Average"
+  threshold           = 30
+  alarm_actions       = [aws_autoscaling_policy.scale_in.arn]
+
+  dimensions = {
+    AutoScalingGroupName = aws_autoscaling_group.app_asg.name
+  }
 }
