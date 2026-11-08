@@ -28,7 +28,7 @@ The goal is to demonstrate real cloud engineering skills using Infrastructure as
 * Route Tables for public and private routing
 * Security Groups for inbound/outbound control
 * Application Load Balancer to distribute traffic
-* Auto Scaling Group to scale EC2 instances
+* Auto Scaling Group that keeps 2 instances (min 2, max 3): scales out when ASG average CPU > 70% for 2 minutes and scales back in when CPU < 30% for 5 minutes
 * IAM Role for SSM access
 * EC2 Launch Template defining instance configuration
 
@@ -47,19 +47,17 @@ The goal is to demonstrate real cloud engineering skills using Infrastructure as
   
                  
 
-   # Deployment
+ # Deployment
 * terraform init
 * terraform plan
 * terraform apply
 
-  # IAM Least Privilege
-  * EC2 role with minimal permissions
+ # IAM Least Privilege
+  * EC2 instances use one role with only the AWS-managed `AmazonSSMManagedInstanceCore` policy, so they can be reached through SSM Session Manager     and nothing else
  
-  * SSM Role 
+  * No SSH keys and no inbound SSH port
  
-  * No wildcard policies
- 
-  * Resource-scoped policies
+  * EC2 security group only accepts HTTP from the ALB security group
  
    # Failure Scenario and Recovery Playbook
   ### Scenario : ALB health checks fail
