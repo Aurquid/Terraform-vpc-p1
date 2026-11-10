@@ -1,8 +1,6 @@
 # Terraform-VPC-P1  
 # Overview
-This project mimics a production-style AWS environment utilizing Terraform.  
-It includes a VPC, public/private subnets, EC2 launch template, Application Load Balancer, Auto Scaling Group, and CloudWatch alarm for CPU-based scaling.  
-The goal is to demonstrate real cloud engineering skills using Infrastructure as Code (IaC), focusing on scalability, monitoring, and cost efficiency.
+This project mimics a production-style AWS environment utilizing Terraform.It includes a VPC, public/private subnets, EC2 launch template, Application Load Balancer, Auto Scaling Group, and CloudWatch alarm for CPU-based scaling.The goal is to demonstrate real cloud engineering skills using Infrastructure as Code (IaC), focusing on scalability, monitoring, and cost efficiency.
 
 
 # 📘 Table of Contents
@@ -28,7 +26,7 @@ The goal is to demonstrate real cloud engineering skills using Infrastructure as
 * Route Tables for public and private routing
 * Security Groups for inbound/outbound control
 * Application Load Balancer to distribute traffic
-* Auto Scaling Group that keeps 2 instances (min 2, max 3): scales out when ASG average CPU > 70% for 2 minutes and scales back in when CPU < 30% for 5 minutes
+* Auto Scaling Group that keeps 2 instances (min 2, max 3). It scales out when ASG average CPU > 70% for 2 minutes and scales back in when CPU < 30% for 5 minutes
 * IAM Role for SSM access
 * EC2 Launch Template defining instance configuration
 
@@ -36,7 +34,7 @@ The goal is to demonstrate real cloud engineering skills using Infrastructure as
 * VPC
 * Subnets( Public and Private)
 * Internet Gateway(IGW)
-* Nat Gateway
+* NAT Gateway
 * Route Tables
 * Security Groups
 * EC2
@@ -51,6 +49,7 @@ The goal is to demonstrate real cloud engineering skills using Infrastructure as
 * terraform init
 * terraform plan
 * terraform apply
+* terraform destroy (after testing to avoid charges)
 
  # IAM Least Privilege
   * EC2 instances use one role with only the AWS-managed `AmazonSSMManagedInstanceCore` policy, so they can be reached through SSM Session Manager     and nothing else
@@ -111,7 +110,7 @@ The goal is to demonstrate real cloud engineering skills using Infrastructure as
 
 * Lower operational overhead
 
-* Strong security posture
+* Instances in private subnets with no public IPs or SSH
 
 * Monitoring through CloudWatch alarms improves system resilience and scaling.
 
@@ -149,13 +148,13 @@ The goal is to demonstrate real cloud engineering skills using Infrastructure as
   NAT Gateway details.
  <img width="947" height="529" alt="Screenshot 2026-08-06 021418" src="https://github.com/user-attachments/assets/92b7c1fa-16f7-4a73-ac21-1f73150be64a" />
  ### Security Groups
-The security group details for the Auto Load Balancer(ALB)
+The security group details for the Application Load Balancer (ALB)
  <img width="921" height="535" alt="Screenshot 2026-08-06 022849" src="https://github.com/user-attachments/assets/6710b01a-1cf8-4e75-90cc-c7ba4d2e0e72" />
  
- The inbound rules for the Auto Load Balancer(ALB)
+ The inbound rules for the Application Load Balancer (ALB)
  <img width="915" height="461" alt="Screenshot 2026-08-06 022911" src="https://github.com/user-attachments/assets/15a20f58-3800-49f9-b36b-696b5f268557" />
  
- The outbound rules for the Auto Load Balancers(ALB)
+ The outbound rules for the Application Load Balancer (ALB)
  <img width="918" height="461" alt="Screenshot 2026-08-06 022929" src="https://github.com/user-attachments/assets/ac518532-5066-460b-86a9-5cb8a3117219" />
  
  Security group details for the instance 
@@ -209,8 +208,8 @@ Second instance summary
 
 <img width="915" height="519" alt="Screenshot 2026-08-06 031446" src="https://github.com/user-attachments/assets/9dd4eb72-40a4-4532-aebb-c3fd8a73eae1" />
 
-### Auto Load Balancer
-Auto load balancer details
+### Application Load Balancer
+Application Load Balancer details
 <img width="907" height="513" alt="Screenshot 2026-08-06 032303" src="https://github.com/user-attachments/assets/adb1c784-66a9-49a5-9396-d762741e2aa0" />
 
 Listener and rules
