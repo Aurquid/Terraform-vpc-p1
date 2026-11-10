@@ -27,9 +27,20 @@ resource "aws_iam_instance_profile" "ssm_profile" {
   }
 }
 
+# Look up the latest Amazon Linux 2023 AMI so new instances always start from a supported, recently patched image
+data "aws_ami" "al2023" {
+  most_recent = true
+  owners      = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["al2023-ami-*-x86_64"]
+  }
+}
+
 resource "aws_launch_template" "app_lt" {
   name_prefix   = "app-lt"
-  image_id      = "ami-0c02fb55956c7d316"
+  image_id      = data.aws_ami.al2023.id
   instance_type = "t2.micro"
 
   iam_instance_profile {
@@ -40,8 +51,8 @@ resource "aws_launch_template" "app_lt" {
 
   user_data = base64encode(<<-EOF
 #!/bin/bash
-yum update -y
-yum install -y httpd
+dnf update -y
+dnf install -y httpd
 systemctl enable httpd
 systemctl start httpd
 rm -f /etc/httpd/conf.d/welcome.conf
